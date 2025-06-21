@@ -1,0 +1,430 @@
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  font-family: "Orbitron", sans-serif; /* hoặc 'Audiowide', Google Font */
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: url("../img/test2.jpg") center/cover;
+}
+
+/* cài lại font chữ chung */
+html {
+  font-size: 62.5%;
+}
+
+/* quy định các thuộc tính cho thẻ body */
+body {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.scene {
+  width: 100%;
+  height: 100%;
+}
+
+/* thẻ bọc tất cả các phần tử */
+.over {
+  width: 100%;
+  height: 100%;
+  display: block;
+  color: #fff;
+  text-align: center;
+}
+
+/* banner */
+.hero-title {
+  margin-bottom: 3rem;
+  animation: fadeInDown 1s ease;
+}
+
+/* tên nhóm */
+.hero-title h1 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 5.5rem;
+  font-weight: 800;
+  color: #00fff7;
+  text-shadow: 0 0 0.5rem #00fff7, 0 0 1rem #00e6ff, 0 0 2rem #00b7ff,
+    0 0 4rem #0099ff, 2px 2px 2px #000,
+    /* Shadow đổ sâu */ 4px 4px 6px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.2rem;
+  animation: glowPulse 2.5s infinite ease-in-out,
+    spaceZoomIn 1.4s ease-out forwards;
+}
+
+/* câu slogan */
+.hero-title-slogan {
+  background: linear-gradient(120deg, #ffffff 0%, #9966ffcc 30%, #000000 100%);
+  background-size: 200%;
+  /* lòng background vào nội dung */
+  background-clip: text;
+  /* tăng độ sáng cho nội dung chữa */
+  filter: brightness(1.3);
+  font-size: 2.2rem;
+  color: transparent;
+  text-shadow: 0 2px 8px #000a, 0 0 20px #ffbfff66;
+  font-style: italic;
+  margin-top: 1rem;
+  animation: lightSweep 2.5s ease-out forwards;
+}
+
+/* khu vực chứa cửa */
+.over .floor {
+  padding: 3rem;
+  margin: 0 auto;
+  width: 100%; /* hoặc chỉnh nhỏ hơn nếu cần */
+  max-width: 120rem;
+  display: inline-grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 4rem;
+  /* đảm bảo .floor nằm trên background, dưới header */
+  z-index: 1;
+}
+
+/* lớp sau cánh cửa */
+.door-frame {
+  background-image: url("../img/ho_den.gif");
+  background-size: cover;
+  background-position: center;
+  width: 15rem;
+  height: 25rem;
+  border-radius: 7.5rem 7.5rem 1rem 1rem;
+  transform-style: preserve-3d;
+  overflow: hidden;
+  margin: auto;
+  /* Glow cyan nét hơn, đỡ chói */
+  box-shadow: inset 0 0.2rem 0.6rem rgba(0, 0, 0, 0.5),
+    0 0 2rem rgba(0, 255, 255, 0.8);
+  /* animation: doorAppear 1s ease-out forwards; */
+}
+
+/* Door: viền gradient cyan→blue, inner semi-opaque */
+.door {
+  position: relative;
+  width: 15rem;
+  height: 25rem;
+  /* Gradient border bo góc bằng background-clip hack */
+  border: 0.3rem solid transparent;
+  border-radius: 7.5rem 7.5rem 1rem 1rem;
+  background:
+    /* layer 1 = gradient border */ linear-gradient(
+        135deg,
+        #00ddff,
+        #0044cc
+      )
+      border-box,
+    /* layer 2 = nội thất mờ để nhìn xuyên background */ rgba(0, 0, 20, 0.6)
+      padding-box;
+  background-clip: border-box, padding-box;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.3s ease;
+  animation: softFlicker 0.8s ease-out 2s infinite, opa 1.5s ease 2s infinite;
+  transform-origin: left center;
+}
+
+/* hiệu ứng xuất hiện cửa 1 lần */
+.door-frame.load {
+  animation: doorAppear 1s ease-out forwards;
+}
+
+/* ngưng các animation và xoay door tạo hiệu ứng mở cửa */
+.door-frame:hover .door {
+  animation: none;
+  transform: rotateY(80deg);
+  transition: transfrom 6s ease-in-out;
+}
+
+/* tạo bóng và animation cho door-frame khi hover vào door-frame */
+.door-frame:hover {
+  box-shadow: inset 0 0.2rem 0.6rem rgba(0, 0, 0, 0.6),
+    0 0 1.8rem rgba(0, 221, 255, 0.8);
+  animation: intenseShake 0.7s ease-in-out infinite;
+}
+
+/* Image Frame: viền nhẹ, nền tối */
+.image-frame {
+  width: 80%;
+  height: 50%;
+  margin: 1rem auto 0;
+  background: rgba(0, 0, 20, 0.7);
+  border: 0.2rem solid #00ddff;
+  border-radius: 7.5rem 7.5rem 1rem 1rem;
+  overflow: hidden;
+}
+.image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Handle: điểm nhấn neon cyan*/
+.door .handle {
+  position: absolute;
+  width: 1.6rem;
+  height: 1.6rem;
+  background: #00ddff;
+  right: 1.6rem;
+  top: calc(2rem + 50%);
+  border-radius: 50%;
+  box-shadow: 0 0 0.6rem rgba(0, 221, 255, 0.6);
+}
+
+/* Label: nền hơi tối, chữ cyan*/
+.door .label {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 0.5rem 0;
+  background: rgba(0, 0, 30, 0.8);
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  color: #00ddff;
+}
+
+/* Các transform/index giữ nguyên*/
+/* gán vị trí và độ mờ của cửa */
+.door_1,
+.door_3 {
+  top: -15%;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+/* gán vị trí, độ mờ và vị trí của cửa */
+.door_2 {
+  opacity: 0.7;
+  grid-column: 2 / span 1; /* nằm giữa theo cột (2 là line bắt đầu span 1 là số ô chiếm) */
+  grid-row: 1 / span 2; /* trải đều 2 hàng nếu cần */
+  align-self: center; /* căn giữa theo trục dọc */
+  justify-self: center; /* căn giữa theo trục ngang */
+  z-index: 2;
+}
+
+/* quy định thứ tự xuất hiện và độ mở của cửa */
+.door_4 {
+  z-index: 3;
+  opacity: 0.7;
+}
+
+/* quy định độ mờ cửa cửa */
+.door_5 {
+  opacity: 0.7;
+}
+
+/* gán độ delay */
+.door_1.door-frame.load {
+  animation-delay: 0.2s;
+}
+
+/* gán độ delay */
+.door_2.door-frame.load {
+  animation-delay: 0.5s;
+}
+
+/* gán độ delay */
+.door_3.door-frame.load {
+  animation-delay: 0.8s;
+}
+
+/* gán đọ delay */
+.door_4.door-frame.load {
+  animation-delay: 1.1s;
+}
+
+/* gán độ delay  */
+.door_5.door-frame.load {
+  animation-delay: 1.4s;
+}
+
+/* footer */
+.footer {
+  margin-top: 4rem;
+  padding: 2rem 0;
+  background: rgba(0, 0, 32, 0.7);
+  color: #7fffd4;
+  font-family: "Orbitron", sans-serif;
+  font-size: 1rem;
+  text-align: center;
+  letter-spacing: 0.1rem;
+}
+
+/* khu vực chứa nội dung */
+.footer-content {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+/* nhóm thẻ chứa nội dung liên quan đến nhóm */
+.footer-group {
+  margin-bottom: 1rem;
+}
+
+/* danh sách thành viên */
+.footer-members ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* thông tin thành viên */
+.footer-members li {
+  display: inline-block;
+  margin: 0 1rem 0.5rem 0;
+}
+
+/* link liên kết */
+.footer a {
+  color: #00eaff;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+/* link liên kết khi hover */
+.footer a:hover {
+  color: #fff;
+}
+
+/* hiệu ứng ánh sáng chập chờn */
+@keyframes softFlicker {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 1.5rem 0.3rem rgba(0, 255, 255, 0.8);
+  }
+  25% {
+    opacity: 0.6;
+    box-shadow: 0 0 2rem 0.4rem rgba(0, 255, 255, 0.65);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 2.2rem 0.5rem rgba(0, 255, 255, 0.8);
+  }
+  75% {
+    opacity: 0.6;
+    box-shadow: 0 0 1.8rem 0.4rem rgba(0, 255, 255, 0.65);
+  }
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 1.5rem 0.3rem rgba(0, 255, 255, 0.8);
+  }
+}
+
+/* hiệu ứng cửa mờ ảo */
+@keyframes opa {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* hiệu ứng rung khi mở cửa */
+@keyframes intenseShake {
+  0% {
+    transform: scale(1.05) translate(0, 0);
+  }
+  10% {
+    transform: scale(1.05) translate(-0.3rem, 0.2rem);
+  }
+  20% {
+    transform: scale(1.05) translate(0.3rem, -0.2rem);
+  }
+  30% {
+    transform: scale(1.05) translate(-0.4rem, 0.1rem);
+  }
+  40% {
+    transform: scale(1.05) translate(0.4rem, -0.1rem);
+  }
+  50% {
+    transform: scale(1.05) translate(-0.5rem, 0);
+  }
+  60% {
+    transform: scale(1.05) translate(0.5rem, 0.2rem);
+  }
+  70% {
+    transform: scale(1.05) translate(-0.4rem, -0.2rem);
+  }
+  80% {
+    transform: scale(1.05) translate(0.4rem, 0.1rem);
+  }
+  90% {
+    transform: scale(1.05) translate(-0.3rem, -0.1rem);
+  }
+  100% {
+    transform: scale(1.05) translate(0, 0);
+  }
+}
+/* hiệu ứng tiêu đề tỏa sáng, nhấp nhô theo nhịp thở */
+@keyframes glowPulse {
+  0%,
+  100% {
+    text-shadow: 0 0 0.5rem #00ffff, 0 0 1.5rem #00e6ff,
+      2px 2px 4px rgba(0, 0, 0, 0.7); /* bóng tối tạo chiều sâu */
+  }
+  50% {
+    text-shadow: 0 0 1rem #00ffff, 0 0 3rem #00e6ff,
+      4px 4px 8px rgba(0, 0, 0, 0.8); /* bóng đổ mạnh hơn khi phát sáng */
+  }
+}
+
+/* hiệu ứng tiêu đề khi xuất hiện */
+@keyframes spaceZoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(4) translateY(-20rem);
+    filter: blur(0.5rem);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+/* hiệu ứng quét từ trái sang phải trên nền chữ của slogan */
+@keyframes lightSweep {
+  0% {
+    background-position: 200% center;
+    opacity: 0;
+    filter: brightness(0.5);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    background-position: 0% center;
+    filter: brightness(1.3);
+  }
+}
+
+@keyframes doorAppear {
+  0% {
+    opacity: 0;
+    filter: brightness(1);
+    transform: scale(0.7);
+  }
+  60% {
+    opacity: 1;
+    filter: brightness(200);
+    transform: scale(1.1);
+  }
+  80% {
+    filter: brightness(1.2);
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+    transform: scale(1);
+  }
+}
